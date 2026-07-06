@@ -1,0 +1,69 @@
+===================================================================================
+RÉSULTATS DES EXPÉRIENCES — ÉTUDE DES CROISEMENTS HGS-CVRP
+===================================================================================
+
+-----------------------------------------------------------------------------------
+FORMAT DES NOMS DE FICHIERS
+-----------------------------------------------------------------------------------
+Tous les fichiers suivent le format :
+
+    <type>_<taille_instance>_crossover_type_<croisement>_seed_<seed>_<try>
+
+Exemple :
+    instance_979_crossover_type_OX_seed_8_8
+
+Où :
+    <type>            un parmi : LS_stats, instance, dist_stats, crossover_usage
+    <taille_instance> nombre de noeuds dans l'instance
+    <croisement>      opérateur utilisé
+    <seed>            graine aléatoire utilisée pour le run
+    <try>             indice de l'expérience
+
+-----------------------------------------------------------------------------------
+CONTENU DES FICHIERS
+-----------------------------------------------------------------------------------
+
+evolution/
+    Enregistré toutes les 0.2 secondes pendant le run.
+    Colonnes : meilleur_coût_faisable - temps(s) - itération
+
+distance/
+    Enregistré toutes les 50 itérations.
+    Colonnes :
+        iteration, crossover_type,
+        faisable_avant_RL,        (1 si l'enfant était faisable avant la recherche locale)
+        faisable_après_RL,        (1 si l'enfant est faisable après la recherche locale)
+        dist_parent1_parent2,     (distance entre les deux parents)
+        dist_enfant_parent1_avant_RL,
+        dist_enfant_parent2_avant_RL,
+        dist_enfant_parent1_après_RL,
+        dist_enfant_parent2_après_RL
+
+    Deux métriques de distance sont utilisées :
+        - Distance par arêtes : proportion d'arêtes de l'enfant absentes du parent
+        - Distance PL : distance d'édition au niveau des routes
+
+LS/
+    Enregistré toutes les 10 itérations.
+    Colonnes :
+        iteration, crossover_type,
+        nbMoves,        (nombre de mouvements améliorants acceptés pendant la recherche locale)
+        nbLoopsLS,      (nombre de passages complets sur tous les noeuds)
+        nbMovesRepair,  (mouvements acceptés pendant la réparation, 0 si non déclenchée)
+        nbLoopsRepair,  (passages pendant la réparation, 0 si non déclenchée)
+        temps_croisement, (temps CPU passé dans l'opérateur de croisement, en secondes)
+        temps_RL,         (temps CPU passé dans la recherche locale + réparation, en secondes)
+        ratio             (temps_croisement / temps_RL)
+
+usage/
+    Indique combien de fois chaque opérateur de croisement a été sélectionné pendant le run.
+
+-----------------------------------------------------------------------------------
+EXPÉRIENCES SPÉCIALES
+-----------------------------------------------------------------------------------
+
+useBest_(PL,EAX)/
+    Expériences menées avec le paramètre useBestMove activé pour les
+    opérateurs PL et EAX.
+
+===================================================================================
