@@ -1,0 +1,10 @@
+build/
+*.o
+*.so
+*.dll
+*.dylib
+hgs
+results/
+.idea/
+cmake-build-debug/
+cmake-build-release/
